@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Configuration;
@@ -21,6 +22,10 @@ public class Program
 
     public static async Task Main(string[] args)
     {
+        if (args.Length != 0 && args[0] == "end")
+        {
+            return;
+        }
 
         var cfg = VilaConfiguration.GetVilaConfiguration();
 
@@ -63,7 +68,16 @@ public class Program
             }
         }
 
-        var deviceConfigs = DeviceConfiguration.GetDeviceConfigurations();
+        string config = "*.json";
+
+        if (args.Length > 0)
+        {
+            config = args[0] + ".json";
+        }
+
+        var deviceConfigs = DeviceConfiguration.GetDeviceConfigurations(config);
+
+        // var deviceConfigs = DeviceConfiguration.GetDeviceConfigurations();
 
         using var r = new Runner(monitor, deviceConfigs.Values.Where(c => c != null).Select(c => c!), plugins,
             loggerFactory.CreateLogger<Runner>());
