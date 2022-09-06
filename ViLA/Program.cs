@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -22,11 +23,6 @@ public class Program
 
     public static async Task Main(string[] args)
     {
-        if (args.Length != 0 && args[0] == "end")
-        {
-            return;
-        }
-
         var cfg = VilaConfiguration.GetVilaConfiguration();
 
         if (cfg is null)
